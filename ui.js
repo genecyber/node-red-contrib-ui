@@ -24,6 +24,7 @@ var serveStatic = require('serve-static'),
 
 var tabs = [];
 var links = [];
+var scripts = [];
 
 var updateValueEventName = 'update-value';
 
@@ -234,7 +235,8 @@ function updateUi(to) {
 		to.emit('ui-controls', {
 			title: settings.title,
 			tabs: tabs,
-			links: links
+			links: links,
+            scripts: scripts
 		});
 		updateUiPending = false;
 	});
@@ -329,10 +331,13 @@ function addLink(name, link, icon, order) {
 		updateUi();
 	}
 }
-var scripts = []
-function addScript(format) {
+
+function addScript(name, link, icon, order) {
 	var newScript = {
-		format: format
+		name: name,
+		link: link,
+		icon: icon,
+		order: order || 1
 	};
 	
 	scripts.push(newScript);

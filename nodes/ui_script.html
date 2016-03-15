@@ -2,15 +2,19 @@
     RED.nodes.registerType('ui_script',{
         category: 'ui',
         color: '#a6bbcf',
-        defaults: {            
-            name: {value: 'Script'},
-            format: {value: '{{msg.payload}}'}            
+        defaults: {
+            name: {value: 'Google'},
+			link: {value: 'http://www.google.com'},
+            icon: {value: 'open_in_browser'},
+            order: {value: 1, validate: RED.validators.number()},
+
         },
         inputs:1,
         outputs:0,
+        align: "right",
         icon: "ui_template.png",
         paletteLabel: 'script',
-        label: function() { return this.name || 'script'; }
+        label: function() { return this.name || 'link'; }
     });
 </script>
 
@@ -18,13 +22,22 @@
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name">
-    </div>    
+    </div>
     <div class="form-row">
-        <label for="node-input-format"><i class="fa fa-copy"></i> Template</label>
-        <input type="text" id="node-input-format" placeholder="{{msg.payload}}">
+        <label for="node-input-link"><i class="fa fa-link"></i> Link</label>
+        <input type="text" id="node-input-link">
+    </div>
+    <div class="form-row">
+        <label for="node-input-icon"><i class="fa fa-image"></i> Icon</label>
+        <input type="text" id="node-input-icon">
+    </div>
+    <div class="form-row">
+        <label for="node-input-order"><i class="fa fa-sort"></i> Order</label>
+        <input type="text" id="node-input-order">
     </div>
 </script>
 
 <script type="text/x-red" data-help-name="ui_script">
-    <p>Adds desired script elements to ui</p>
+    <p>Will add a link in the left side menu. The icon must be one of 
+    (<a href="https://klarsys.github.io/angular-material-icons/" target="_blank">https://klarsys.github.io/angular-material-icons/</a>).</p>
 </script>
