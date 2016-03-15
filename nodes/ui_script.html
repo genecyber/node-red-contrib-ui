@@ -3,38 +3,35 @@
         category: 'ui',
         color: '#a6bbcf',
         defaults: {
-            name: {value: 'Google'},
-			link: {value: 'http://www.google.com'},
-            icon: {value: 'open_in_browser'},
-            format: {value: '{{msg.payload}}'},
+            tab: {type: 'ui_tab', required: true},
+            name: {value: 'Script'},
+            group: {value: ''},
             order: {value: 1, validate: RED.validators.number()},
-
+            format: {value: '{{msg.payload}}'}
         },
         inputs:1,
         outputs:0,
         align: "right",
-        icon: "ui_template.png",
-        paletteLabel: 'script',
-        label: function() { return this.name || 'link'; }
+        icon: "ui_text.png",
+        paletteLabel: '<script>',
+        label: function() { return this.name || 'script'; }
     });
 </script>
 
 <script type="text/x-red" data-template-name="ui_script">
     <div class="form-row">
+        <label for="node-input-tab"><i class="fa fa-table"></i> Tab</label>
+        <input type="text" id="node-input-tab">
+    </div>
+    <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name">
     </div>
     <div class="form-row">
-        <label for="node-input-link"><i class="fa fa-link"></i> Link</label>
-        <input type="text" id="node-input-link">
-    </div>
-    <div class="form-row">
-        <label for="node-input-icon"><i class="fa fa-image"></i> Icon</label>
-        <input type="text" id="node-input-icon">
-    </div>
-    <div class="form-row">
-        <label for="node-input-order"><i class="fa fa-sort"></i> Order</label>
-        <input type="text" id="node-input-order">
+        <label for="node-input-group"><i class="fa fa-object-group"></i> Group</label>
+        <input type="text" style="width: calc(70% - 132px)" id="node-input-group">
+        <label for="node-input-order" style="text-align: right; width: 60px"><i class="fa fa-sort"></i> Order</label>
+        <input type="text" style="width: 50px" id="node-input-order">
     </div>
     <div class="form-row">
         <label for="node-input-format"><i class="fa fa-copy"></i> Template</label>
@@ -43,6 +40,8 @@
 </script>
 
 <script type="text/x-red" data-help-name="ui_script">
-    <p>Will add a link in the left side menu. The icon must be one of 
-    (<a href="https://klarsys.github.io/angular-material-icons/" target="_blank">https://klarsys.github.io/angular-material-icons/</a>).</p>
+    <p>Will display a non-editable text on the user interface. Each received message will update 
+    the text based on the provided <b>Template</b>.<br>
+    The <b>Template</b> field can be used to change the displayed format and can contain
+    valid HTML (eg: <code>&amp;deg;</code> will show the degree symbol).</p>
 </script>
