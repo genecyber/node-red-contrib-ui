@@ -8,7 +8,8 @@ module.exports = function(RED) {
 	
 	return { 
 		add: add,
-		addLink: addLink, 
+		addLink: addLink,
+        addScript: addScript,
 		emit: emit,
 		toNumber: toNumber.bind(null, false),
 		toFloat: toNumber.bind(null, true)
@@ -325,6 +326,23 @@ function addLink(name, link, icon, order) {
 		if (index < 0) return;
 		
 		links.splice(index, 1);
+		updateUi();
+	}
+}
+var scripts = []
+function addScript(format) {
+	var newScript = {
+		format: format
+	};
+	
+	scripts.push(newScript);
+	updateUi();
+	
+	return function() {
+		var index = scripts.indexOf(newScript);
+		if (index < 0) return;
+		
+		scripts.splice(index, 1);
 		updateUi();
 	}
 }

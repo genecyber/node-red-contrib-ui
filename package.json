@@ -20,6 +20,7 @@
       "ui_button": "nodes/ui_button.js",
       "ui_button_row": "nodes/ui_button_row.js",
       "ui_radio_button": "nodes/ui_radio_button.js",
+      "ui_script": "nodes/ui_script.js",
       "ui_switch": "nodes/ui_switch.js",
       "ui_slider": "nodes/ui_slider.js",
       "ui_numeric": "nodes/ui_numeric.js",

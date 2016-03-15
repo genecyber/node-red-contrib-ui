@@ -1,0 +1,30 @@
+<script type="text/javascript">
+    RED.nodes.registerType('ui_script',{
+        category: 'ui',
+        color: '#a6bbcf',
+        defaults: {            
+            name: {value: 'Script'},
+            format: {value: '{{msg.payload}}'}            
+        },
+        inputs:1,
+        outputs:0,
+        icon: "ui_template.png",
+        paletteLabel: 'script',
+        label: function() { return this.name || 'script'; }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="ui_script">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>    
+    <div class="form-row">
+        <label for="node-input-format"><i class="fa fa-copy"></i> Template</label>
+        <input type="text" id="node-input-format" placeholder="{{msg.payload}}">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="ui_script">
+    <p>Adds desired script elements to ui</p>
+</script>

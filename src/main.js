@@ -16,6 +16,7 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
     
         this.tabs = [];
         this.links = [];
+        this.scripts = [];
         this.selectedTab = null;
         this.loaded = false;
     
@@ -37,6 +38,7 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
         events.connect(function (ui, done) {
             main.tabs = ui.tabs;
             main.links = ui.links;
+            main.scripts = ui.scripts;
             $document[0].title = ui.title;
             
             var prevTabIndex = parseInt($location.path().substr(1));
