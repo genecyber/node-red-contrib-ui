@@ -14,7 +14,7 @@
                 <ui-icon class="md-default-theme" icon="{{tab.icon}}" style="margin: 5px"></ui-icon>
                 <p>{{tab.header}}</p>
             </md-list-item>
-            <div ng-repeat="script in main.scripts">
+            <div ui-compile="me.item.format" ng-repeat="script in main.scripts">
                 {{script}}
             </div>
             <md-list-item ng-click="main.open(link.link)" ng-repeat="link in main.links">
