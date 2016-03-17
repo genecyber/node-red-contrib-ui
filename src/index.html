@@ -22,8 +22,8 @@
 <md-content ng-if="main.loaded" ng-include="'partials/main.html'" layout="column" flex></md-content>
 <ui-component style="display:none;" ng-repeat="control in main.scripts" flex item="control"></ui-component>
 <script src="socket.io/socket.io.js"></script>
-<script src="../js/UI/head.js"></script>
 <!-- build:js -->
+<script src="vendor/headjs/dist/1.0.0/head.js"></script>
 <script src="vendor/jquery/dist/jquery.min.js"></script>
 <script src="vendor/jquery-bridget/jquery.bridget.js"></script>
 <script src="vendor/masonry-layout/dist/masonry.pkgd.min.js"></script>

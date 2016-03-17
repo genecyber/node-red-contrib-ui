@@ -261,6 +261,7 @@ function addControl(tab, groupHeader, control) {
         //console.log("Control",control)
         var foundScript = scripts.filter(function(script){script.id === control.id})
         //if (foundScript.length < 1) {
+            console.log("Found?",foundScript)
             scripts.push(control)
         //}
     } else {        
