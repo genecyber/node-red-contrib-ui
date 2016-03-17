@@ -27,6 +27,7 @@ angular.module('ui').directive('uiComponent', ['$http', '$compile', '$templateCa
     
                 template.then(function (html) {
                     var control = angular.element(html);
+                    //console.log("element", control)
                     if (ctrl.item.width) control.attr('flex', ctrl.item.width);
                     element.replaceWith($compile(control)(scope));
                 });

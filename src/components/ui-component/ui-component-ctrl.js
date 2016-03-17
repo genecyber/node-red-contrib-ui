@@ -1,11 +1,12 @@
 /* global angular */
 /* global d3 */
+
 angular.module('ui').controller('uiComponentController', ['UiEvents', '$interpolate', '$interval',
     function (events, $interpolate, $interval) {
         var me = this;
-        if (typeof me.item.format === "string")
+        if (typeof me.item.format === "string") {
             me.item.getText = $interpolate(me.item.format).bind(null, me.item);
-        
+        }
         me.init = function() {
             switch (me.item.type) {
                 case 'button':

@@ -20,7 +20,21 @@ angular.module('ui').service('UiEvents', ['$timeout',
                 }
                 
                 var socketHandler = function(data) {
+                    //console.log("data", data)
+                    var element = components.filter(function(component){return component.id === data.id})
+                    try {
+                        try {
+                            $(element[0].element[0]).trigger("change")
+
+                            $($(element[0].element[0]).find("[ng-model='payload']")[0]).val(data.msg.payload)
+
+                            $($(element[0].element[0]).find("[ng-model='payload']")[0]).trigger("change")
+                        } catch(e){
+                            //console.log("trigger error", e, element[0].element[0])
+                        }
+                    } catch(ex){}
                     $timeout(function() {
+                        //console.log("handler",JSON.stringify(handler))
                         handler(data);
                     }, 0);
                 };

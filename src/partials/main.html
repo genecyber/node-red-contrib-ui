@@ -1,3 +1,4 @@
+
 <md-toolbar class="md-whiteframe-z1">
     <div class="md-toolbar-tools">
         <md-button ng-click="main.toggleSidenav()" class="md-icon-button">
@@ -27,7 +28,9 @@
                      style="margin: 16px 0 0 0">
                 <md-card-content layout="column">
                     <h2 ng-show="group.header" class="md-title">{{group.header}}</h2>
-                    <ui-component ng-repeat="control in group.items" flex item="control"></ui-component>
+                    <ui-component ng-repeat="control in group.items" flex item="control">
+                    <input style="display:none" ng-model="payload" type="text"/>
+                    </ui-component>
                 </md-card-content>
             </md-card>
         </masonry>

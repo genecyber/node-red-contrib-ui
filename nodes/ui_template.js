@@ -6,7 +6,7 @@ module.exports = function(RED) {
         var node = this;
         
         var tab = RED.nodes.getNode(config.tab);
-        if (!tab) return;
+        //if (!tab) return;
         
         var done = ui.add({
             forwardInputMessages: config.fwdInMessages,

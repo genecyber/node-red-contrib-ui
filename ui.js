@@ -257,34 +257,40 @@ function addControl(tab, groupHeader, control) {
 	if (typeof control.type !== 'string') return;
 	groupHeader = groupHeader || settings.defaultGroupHeader;
 	control.order = parseInt(control.order);
-	
-	var foundTab = find(tabs, function (t) {return t.id === tab.id });
-	if (!foundTab) {
-		foundTab = {
-			id: tab.id,
-			header: tab.config.name,
-			order: parseInt(tab.config.order),
-			icon: tab.config.icon,
-			items: []
-		};
-		tabs.push(foundTab);
-		tabs.sort(itemSorter);
-	}
-	
-	var foundGroup = find(foundTab.items, function (g) {return g.header === groupHeader;});
-	if (!foundGroup) {
-		foundGroup = {
-			header: groupHeader,
-			items: []
-		};
-		foundTab.items.push(foundGroup);
-	}
-	foundGroup.items.push(control);
-	foundGroup.items.sort(itemSorter);
-	
-	foundGroup.order = foundGroup.items.reduce(function (prev, c) { return prev + c.order; }, 0) / foundGroup.items.length;
-	foundTab.items.sort(itemSorter);
-	
+	if (control.type === "script") {
+        //console.log("Control",control)
+        var foundScript = scripts.filter(function(script){script.id === control.id})
+        //if (foundScript.length < 1) {
+            scripts.push(control)
+        //}
+    } else {        
+        var foundTab = find(tabs, function (t) {return t.id === tab.id });
+        if (!foundTab) {
+            foundTab = {
+                id: tab.id,
+                header: tab.config.name,
+                order: parseInt(tab.config.order),
+                icon: tab.config.icon,
+                items: []
+            };
+            tabs.push(foundTab);
+            tabs.sort(itemSorter);
+        }
+        
+        var foundGroup = find(foundTab.items, function (g) {return g.header === groupHeader;});
+        if (!foundGroup) {
+            foundGroup = {
+                header: groupHeader,
+                items: []
+            };
+            foundTab.items.push(foundGroup);
+        }
+        foundGroup.items.push(control);
+        foundGroup.items.sort(itemSorter);
+        
+        foundGroup.order = foundGroup.items.reduce(function (prev, c) { return prev + c.order; }, 0) / foundGroup.items.length;
+        foundTab.items.sort(itemSorter);
+    }
 	updateUi();
 	
 	return function() {

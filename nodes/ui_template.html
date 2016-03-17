@@ -1,4 +1,6 @@
 <script type="text/javascript">
+var defaultHtml = '\r\n<div>\r\n  <label for="ng-change-example1">Click me</label>\r\n  <input type="checkbox" ng-model="confirmed" id="ng-change-example1" />\r\n  <input type="checkbox" ng-model="confirmed2" id="ng-change-example2" /><br>\r\n  <tt>element bindings = {{confirmed}} {{confirmed2}}</tt><br/>\r\n  <tt>declared in markup = {{payload}}</tt><br/>\r\n</div>\r\n\r\n<script>\r\n    var perform = function(payload){\r\n        $(".fromScript").html("written by javascript: "+payload)\r\n    }\r\n<\/script>\r\n\r\n<div class="fromScript"></div>'
+
     RED.nodes.registerType('ui_template',{
         category: 'ui',
         color: '#a6bbcf',
@@ -7,7 +9,7 @@
             name: {value: ''},
             group: {value: ''},
             order: {value: 1, validate: RED.validators.number()},
-            format: {value: '{{msg.payload}}'},
+            format: {value: defaultHtml},
             storeOutMessages: {value: true},
             fwdInMessages: {value: true},
         },
@@ -135,6 +137,29 @@
     Click me to send a hello world
 &lt;/md-button&gt;</pre>
     Will display a button that when clicked will send a message with the payload <code>'Hello world'</code>.
+    <br><br>
+    <b>Binding:</b><br>
+    Binding can take place via Angular binding directive <code>ng-model</code>
+    <pre>
+        &lt;input type="checkbox" ng-model="confirmed" id="ng-change-example1" />
+        &lt;input type="checkbox" ng-model="confirmed2" id="ng-change-example2" />
+        &lt;tt>debug = {{confirmed}} {{confirmed2}}&lt;/tt>
+    </pre>
+    Binding to the incoming msg.payload is also supported:
+    <pre>
+        &lt;tt>counter = {{payload}}&lt;/tt>
+    </pre>
+    
+    <b>Javascript firing on msg receive:</b><br>
+    Now you are able to fire javascript upon receipt of a msg. Creation of a method called <code> perform </code>
+    <pre>
+    &lt;script>
+      var perform = function(payload){
+        console.log("Payload from Node-Red",payload)
+      }
+    &lt;/script>
+    </pre>
+    
     </p>
     
 </script>

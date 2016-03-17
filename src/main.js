@@ -63,11 +63,29 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
             }
         }
         
+        function findScriptControl(id, items) {
+            for (var i=0; i<items.length; i++) {
+                var item = items[i];
+                if (item.id === id) return item;
+                if (item.items) {
+                    var found = findControl(id, item.items);
+                    if (found) return found;
+                } 
+            }
+        }
+        
         events.on(function (msg) {
+            //console.log("msg", msg)
             var found = findControl(msg.id, main.tabs);
-            for (var key in msg) {
-                if (key === 'id') continue;
-                found[key] = msg[key];
+            if (!found) {
+                found = findScriptControl(msg.id, main.scripts);
+            }
+            if (found) {
+                //console.log("found", found)        
+                for (var key in msg) {
+                    if (key === 'id') continue;
+                    found[key] = msg[key];
+                }
             }
         });
         
