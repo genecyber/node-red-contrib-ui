@@ -1,5 +1,4 @@
 var inited = false;
-
 module.exports = function(RED) {
 	if (!inited) {
 		inited = true;
@@ -224,6 +223,7 @@ function init(server, app, log, redSettings) {
 }
 
 var updateUiPending = false;
+
 function updateUi(to) {
 	if (!to) {
 		if (updateUiPending) return; 
@@ -238,7 +238,7 @@ function updateUi(to) {
 			links: links,
             scripts: scripts
 		});
-		updateUiPending = false;
+		updateUiPending = false;        
 	});
 }
 

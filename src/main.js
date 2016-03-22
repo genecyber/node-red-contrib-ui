@@ -24,10 +24,10 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
             $mdSidenav('left').toggle();
         };
     
-        this.select = function(index) {
+        this.select = function(index) {            
             main.selectedTab = main.tabs[index];
             $mdSidenav('left').close();
-            $location.path(index);
+            $location.path(index)
         };
     
         this.open = function(link) {
