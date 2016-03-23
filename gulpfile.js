@@ -1,6 +1,6 @@
 var 
   gulp = require('gulp'),
-
+  shell = require('gulp-shell'),
   concat = require('gulp-concat'),
   uglify = require('gulp-uglify'),
   templateCache = require('gulp-angular-templatecache'),
@@ -9,13 +9,20 @@ var
   minifyCss = require('gulp-minify-css'),
   gulpif = require('gulp-if'),
   htmlreplace = require('gulp-html-replace'),
-  minifyHTML = require('gulp-minify-html'),
-  
+  minifyHTML = require('gulp-minify-html'),  
   path = require('path'),
   spawn = require('child_process').spawn,
-  streamqueue = require('streamqueue');
+  streamqueue = require('streamqueue'),
+  runSequence = require('run-sequence'),
+  child
 
 gulp.task('build', ['icon', 'js', 'css', 'index', 'fonts']);
+gulp.task('build-dev', function(done){
+    runSequence('build', 'finish', 'node-red',function() {
+        console.log(gutil.colors.red("done!"))
+        done();
+    });
+});
 
 gulp.task('publish', ['build'], function (done) {
   spawn('npm', ['publish'], { stdio: 'inherit' }).on('close', done);
@@ -60,6 +67,61 @@ gulp.task('css', function () {
     .pipe(concat('app.min.css'))
     .pipe(gulp.dest('dist/css/'));
 });
+
+gulp.task('finish', function() {
+    var watcher = gulp.watch('src/**/*.*', ['build-dev']);
+    watcher.on('change', function(event) {      
+        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
+        if (child) {
+            kill(function(){
+                return 
+                //spawnNodeRed()
+            })
+        } 
+    })
+    return gulp.src(['dist/*','dist/**/*']).pipe(gulp.dest('../node-red/node-red/node_modules/node-red-contrib-ui/dist'))   
+})
+
+gulp.task('node-red', function() {
+    if (child) {
+       kill(function(){
+           return spawnNodeRed()
+       })
+   } else {
+       return spawnNodeRed()
+   }   
+})
+
+function kill(cb){
+    var spawn = require('child_process').spawn;    
+    spawn("taskkill", ["/pid", child.pid, '/f', '/t']);
+    return cb()
+}
+
+function spawnNodeRed(){
+        child = spawn("node-red.bat", [], {cwd: process.cwd()}),
+            stdout = '',
+            stderr = '';
+
+        child.stdout.setEncoding('utf8');
+
+        child.stdout.on('data', function (data) {
+            stdout += data;
+            gutil.log(data);
+        });
+
+        child.stderr.setEncoding('utf8');
+        child.stderr.on('data', function (data) {
+            stderr += data;
+            gutil.log(gutil.colors.red(data));
+            gutil.beep();
+        });
+
+        child.on('close', function(code) {
+            gutil.log("Done with exit code", code);
+            gutil.log("You access complete stdout and stderr from here"); // stdout, stderr
+        })
+   }
 
 var vendorPrefix = "vendor/";
 function getFileName(attr, node) {
