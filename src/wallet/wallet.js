@@ -51,15 +51,20 @@ function initbasic() {
     try {
         accounts = new Accounts({ minPassphraseLength: 6 });
         if (typeof angular !== 'undefined') {
-            send("Login", {topic: "Logged In", payload: accounts.get().selected})
-            setTimeout(function() {                
-                //$("p:contains('Wallet')").click()
-            }, 600)
+            console.log("Logging In")
+            //try {
+            //    send("Login", {topic: "Logged In", payload: accounts.get().selected})
+            //    $("p:contains('Wallet')").click()
+            //} catch(e){
+                dispatch({type: "toast", topic: "Logged In", payload: accounts.get().selected})
+                $("p:contains('Wallet')").click()
+            //}
+            
         }
     } catch (e) {
         setTimeout(function() {
-            console.log("Account not loaded yet, retrying in 500ms", e)
-            return init()
+            send("Login", {topic: "Logged In", payload: accounts.get().selected})
+            //return initbasic()
         }, 500)
     }
 }
@@ -228,16 +233,30 @@ function getQueryParams(qs) {
 
 function send(name, payload){
     if (typeof angular !== 'undefined') {
-        console.log("SEND")
+        console.log("SEND", payload)
         if (typeof payload !== 'object') {
             payload = {payload: payload}
         }
-        angular.element(panel(name,"Default").find("port")).scope().send(payload)
+        var msgPort = angular.element(panel(name,"Default").find("port")).scope()
+        if (msgPort.send !== undefined) {
+            msgPort.send(payload)
+        }
     } else {
         console.log(payload)
         $(".out").append(payload.payload)
     }
 }
+
+function dispatch(payload) {
+    if (typeof payload !== 'object') {
+            payload = {payload: payload}
+        }
+    var send = $(".msgPort").scope().send
+    if (send) {
+        send(payload)
+    }
+}
+
 function panel(name, orname) {
     if (typeof angular !== 'undefined') {
         if (angular.element($("[panel='"+name+"']")).length > 0) {

@@ -204,6 +204,104 @@
     });    
 </script>
 
+<!-- DB In -->
+<script type="text/x-red" data-template-name="Scooby DB Put">
+    <div class="form-row">
+        <label for="node-input-agentAddress"><i class="fa fa-slack"></i> Address</label>
+        <input type="text" id="node-input-agentAddress" placeholder="agentAddress" style=" vertical-align: top;">
+    </div>
+    <div class="form-row">
+        <label for="node-input-db"><i class="fa fa-slack"></i> Database</label>
+        <input type="text" id="node-input-db" placeholder="db" style=" vertical-align: top;">
+    </div>
+    <div class="form-row">
+        <label for="node-input-key"><i class="fa fa-slack"></i> Key</label>
+        <input type="text" id="node-input-key" placeholder="key" style=" vertical-align: top;">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Scooby DB Put">
+    <p>Mints the <b>msg.amount</b> of new reward.</p>
+    <p>You can optionally override the hash if required - either in the edit dialogue or by setting <b>msg.contractHash</b>.</p>
+</script>
+
+
+<script type="text/javascript">   
+    RED.nodes.registerType('Scooby DB Put',{
+        category: 'Rewards',
+        defaults: {
+            name: {value:""},
+            db: {value: "", required: true},                  
+            agentAddress: {value:"0xac19dcdafbd2396339d2b4ae961ae212db2831cf"},
+            key: {value:""}
+        },
+        color:"#4C9689",
+        icon: "hash.png",
+        align: "right",
+        inputs:1,
+        outputs:1,
+        label: function() {
+            return this.name||"";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });    
+</script>
+
+<!-- DB Out -->
+<script type="text/x-red" data-template-name="Scooby DB Get">
+    <div class="form-row">
+        <label for="node-input-agentAddress"><i class="fa fa-slack"></i> Address</label>
+        <input type="text" id="node-input-agentAddress" placeholder="agentAddress" style=" vertical-align: top;">
+    </div>
+    <div class="form-row">
+        <label for="node-input-db"><i class="fa fa-slack"></i> Database</label>
+        <input type="text" id="node-input-db" placeholder="db" style=" vertical-align: top;">
+    </div>
+    <div class="form-row">
+        <label for="node-input-key"><i class="fa fa-slack"></i> Key</label>
+        <input type="text" id="node-input-key" placeholder="key" style=" vertical-align: top;">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Scooby DB Get">
+    <p>Mints the <b>msg.amount</b> of new reward.</p>
+    <p>You can optionally override the hash if required - either in the edit dialogue or by setting <b>msg.contractHash</b>.</p>
+</script>
+
+
+<script type="text/javascript">   
+    RED.nodes.registerType('Scooby DB Get',{
+        category: 'Rewards',
+        defaults: {
+            name: {value:""},
+            db: {value: "", required: true},                    
+            agentAddress: {value:"0xac19dcdafbd2396339d2b4ae961ae212db2831cf"},
+            key: {value:""}
+        },
+        color:"#4C9689",
+        icon: "hash.png",
+        align: "right",
+        inputs:1,
+        outputs:1,
+        label: function() {
+            return this.name||"";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });    
+</script>
+
 
 <!-- Config -->
 <script type="text/javascript">

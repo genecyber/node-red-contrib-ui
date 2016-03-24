@@ -184,6 +184,55 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType("Scooby Mint",mint)
     
+     /* DB In */
+    function dbin(n) {
+        this.key = n.key
+        this.db = n.db
+        this.agentAddress = n.agentAddress
+        //web3.setProvider(new Web3.providers.HttpProvider(RED.nodes.getNode(n.interface).rpc))
+        //console.log(RED.nodes.getNode(n.interface).rpc)
+        RED.nodes.createNode(this,n)
+        var node = this
+        this.on('input', function (msg) {
+            console.log("PUT",msg)
+            var result = web3.db.putString(msg.db || this.db, msg.key || this.key , JSON.stringify(msg.payload))
+            if (result) {
+                result = web3.db.getString(msg.db || this.db, msg.key || this.key)
+                msg.payload = JSON.parse(result)
+            } else {
+                msg.error = true
+                msg.payload = "Not Found"
+            }              
+            node.send(msg)          
+        })        
+    }
+    RED.nodes.registerType("Scooby DB Put", dbin)
+    
+    /* DB Out */
+    function dbout(n) {
+        this.key = n.key
+        this.db = n.db
+        this.agentAddress = n.agentAddress
+        //web3.setProvider(new Web3.providers.HttpProvider(RED.nodes.getNode(n.interface).rpc))
+        //console.log(RED.nodes.getNode(n.interface).rpc)
+        RED.nodes.createNode(this, n)
+        var node = this
+        var result
+        this.on('input', function(msg) {
+            try {
+                result = web3.db.getString(msg.db || this.db, msg.key || this.key)
+                msg.payload = JSON.parse(result)
+                msg.error = false
+            } catch(e){
+                console.log("result", result, e)
+                msg.errorMsg = e.toString()
+                msg.error = true
+            }
+            node.send(msg)
+        })
+    }
+    RED.nodes.registerType("Scooby DB Get", dbout)
+    
     /* CONFIG */   
     function IFace(n) {
         RED.nodes.createNode(this,n);

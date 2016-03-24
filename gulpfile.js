@@ -15,7 +15,18 @@ var
   streamqueue = require('streamqueue'),
   runSequence = require('run-sequence'),
   child
-
+  
+var watcher = gulp.watch(['src/**/*.*','nodes/**/*.*'], ['build-dev']);
+watcher.on('change', function(event) {
+    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
+    if (child) {
+        kill(function() {
+            return
+            //spawnNodeRed()
+        })
+    }
+})
+    
 gulp.task('build', ['icon', 'js', 'css', 'index', 'fonts']);
 gulp.task('build-dev', function(done){
     runSequence('build', 'finish', 'node-red',function() {
@@ -69,16 +80,7 @@ gulp.task('css', function () {
 });
 
 gulp.task('finish', function() {
-    var watcher = gulp.watch('src/**/*.*', ['build-dev']);
-    watcher.on('change', function(event) {      
-        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
-        if (child) {
-            kill(function(){
-                return 
-                //spawnNodeRed()
-            })
-        } 
-    })
+    gulp.src(['nodes/*']).pipe(gulp.dest('../node-red/node-red/node_modules/node-red-contrib-ui/nodes')) 
     return gulp.src(['dist/*','dist/**/*']).pipe(gulp.dest('../node-red/node-red/node_modules/node-red-contrib-ui/dist'))   
 })
 
