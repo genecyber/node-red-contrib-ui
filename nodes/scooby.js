@@ -53,9 +53,9 @@ module.exports = function(RED) {
     var tokens = []
     
     var subscriptions = []
-    subscriptions.contain = function(target, filter){
+    var subscriptionContains = function(target, filter){
         var needle = subscriptions.filter(function(subscription){
-            return subscription[target] === filter[target]
+            return subscription[target] === filter
         })
         return needle.length > 0
     }
@@ -65,10 +65,26 @@ module.exports = function(RED) {
             tokenContract = makeContractTemplate(node.interface.interface)
         }
         return getTokenContract(msg.contractHash || node.contractHash, tokenContract, function(contractInstance) {
-            eventSubscribe(contractInstance, function(event) {
-                msg = saveSubscriptionLocally(msg, event, node)
-                node.send(msg)
-            })
+            //console.log("Subscribing", msg)
+            var needle = subscriptions.filter(function(subscription){
+                        return subscription.contract === msg.contractHash || node.contractHash
+                    })
+                    if (needle.length < 1) {
+                        eventSubscribe(contractInstance, function(event) {
+                            if (event.requestManager) {
+                                //console.log("event subscribed", event, typeof event)
+                                    
+                                    subscriptions.push({contract: msg.contractHash || node.contractHash})
+                                    msg.subscriptions = subscriptions
+                                            
+                            }
+                            //msg.payload = "Get Balance"
+                            //msg.type = "balance"
+                            msg.payload = event
+                            //console.log("received event", msg)
+                            node.send(msg)
+                        })
+                    }
         })
     }
     
@@ -114,7 +130,7 @@ module.exports = function(RED) {
         if (!msg) {msg = {subscriptions: []}}
         if (!msg.subscriptions){msg.subscriptions = []}
         msg.payload = event
-        var newSubscriber = {owner: msg.owner || null, contract: msg.contractHash || node.contractHash}                
+        var newSubscriber = {contract: msg.contractHash || node.contractHash}                
         subscriptions.push(newSubscriber)
         msg.subscriptions.push(newSubscriber)
         return msg
@@ -131,7 +147,8 @@ module.exports = function(RED) {
             msg.subscriptions = subscriptions
             if (!msg.payload.event && (msg.contractHash || node.contractHash)) {
                 contractHash = (msg.contractHash || node.contractHash)
-                if (!subscriptions.contain({contract: contractHash})) {
+                //console.log("peek into subscribe", msg)
+                if (!subscriptionContains(contractHash, {contract: contractHash})) {
                     subscribeByHash(node, msg)
                 }
             }
@@ -220,11 +237,12 @@ module.exports = function(RED) {
         var result
         this.on('input', function(msg) {
             try {
+                //console.log("Requesting", n, msg)
                 result = web3.db.getString(msg.db || this.db, msg.key || this.key)
                 msg.payload = JSON.parse(result)
                 msg.error = false
             } catch(e){
-                console.log("result", result, e)
+                //console.log("result", result, e)
                 msg.errorMsg = e.toString()
                 msg.error = true
             }
@@ -244,14 +262,13 @@ module.exports = function(RED) {
     
 }
 
-
-
 function eventSubscribe(contractInstance, cb){
-	var events = contractInstance.allEvents({}, function(error, log){
-		if (!error) {
-			return cb(log)
-		}
-	})
+    //console.log("starting subscribe")
+	var events = contractInstance.allEvents({fromBlock: 'latest'})
+    events.watch(function(error, result){
+                    console.log("result", result)
+                  return cb(result)     
+        })
 }
 
 function eventHistory(contractInstance, cb){
