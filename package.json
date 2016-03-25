@@ -17,7 +17,6 @@
   },
   "node-red": {
     "nodes": {
-      "rewards": "nodes/scooby.js",
       "ui_button": "nodes/ui_button.js",
       "ui_button_row": "nodes/ui_button_row.js",
       "ui_radio_button": "nodes/ui_radio_button.js",
