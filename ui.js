@@ -259,10 +259,16 @@ function addControl(tab, groupHeader, control) {
 	control.order = parseInt(control.order);
 	if (control.type === "script") {
         //console.log("Control",control)
-        var foundScript = scripts.filter(function(script){script.id === control.id})
+        //var foundScript = scripts.filter(function(script){return script.id === control.id})
+        var foundScript = find(scripts, function (s) {return s.id === control.id });
         //if (foundScript.length < 1) {
             console.log("Found?",foundScript)
-            scripts.push(control)
+            if (!foundScript) {
+                scripts.push(control)
+                scripts.sort(itemSorter);
+                //scripts.splice(foundScript[0])
+            }
+            
         //}
     } else {        
         var foundTab = find(tabs, function (t) {return t.id === tab.id });
@@ -295,26 +301,40 @@ function addControl(tab, groupHeader, control) {
 	updateUi();
 	
 	return function() {
+        if (control.type !== "script") {
 		var index = foundGroup.items.indexOf(control);
-		if (index >= 0) {
-			foundGroup.items.splice(index, 1);
-			
-			if (foundGroup.items.length === 0) {
-				index = foundTab.items.indexOf(foundGroup);
-				if (index >= 0) {
-					foundTab.items.splice(index, 1);
-					
-					if (foundTab.items.length === 0) {
-						index = tabs.indexOf(foundTab);
-						if (index >= 0) {
-							tabs.splice(index, 1);
-						}
-					}
-				}
-			}
-			
-			updateUi();
-		}
+            if (index >= 0) {
+                foundGroup.items.splice(index, 1);
+
+                if (foundGroup.items.length === 0) {
+                    index = foundTab.items.indexOf(foundGroup);
+                    if (index >= 0) {
+                        foundTab.items.splice(index, 1);
+
+                        if (foundTab.items.length === 0) {
+                            index = tabs.indexOf(foundTab);
+                            if (index >= 0) {
+                                tabs.splice(index, 1);
+                            }
+                        }
+                    }
+                }
+
+                updateUi();
+            }
+        } else {
+            console.log("script")
+
+            //scripts
+            var scriptIndex = scripts.indexOf(control)
+            if (scriptIndex >= 0) {
+                scripts.splice(scriptIndex, 1)
+                console.log("Hmm delete here too?")
+                updateUi();
+            } else {
+                console.log("No delete needed?")
+            }
+        }
 	}
 }
 

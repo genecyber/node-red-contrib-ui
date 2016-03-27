@@ -13,7 +13,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andrei-tatar/node-red-contrib-ui.git"
+    "url": "https://github.com/genecyber/node-red-contrib-ui.git"
   },
   "node-red": {
     "nodes": {
@@ -40,6 +40,7 @@
     "headjs": "^1.0.3",
     "hooked-web3-provider": "git://github.com/genecyber/hooked-web3-provider.git",
     "jszip": "^2.5.0",
+    "keythereum": "^0.2.5",
     "localstorejs": "^0.1.9",
     "node-safe-filesaver": "^0.1.0",
     "request": "^2.69.0",

@@ -16,7 +16,7 @@ var
   runSequence = require('run-sequence'),
   child
   
-var watcher = gulp.watch(['src/**/*.*','nodes/**/*.*'], ['build-dev']);
+var watcher = gulp.watch(['src/**/*.*','nodes/**/*.*','ui.js'], ['build-dev']);
 watcher.on('change', function(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
     if (child) {
@@ -81,6 +81,7 @@ gulp.task('css', function () {
 
 gulp.task('finish', function() {
     gulp.src(['nodes/*']).pipe(gulp.dest('../node-red/node-red/node_modules/node-red-contrib-ui/nodes')) 
+    gulp.src(['ui.js']).pipe(gulp.dest('../node-red/node-red/node_modules/node-red-contrib-ui')) 
     return gulp.src(['dist/*','dist/**/*']).pipe(gulp.dest('../node-red/node-red/node_modules/node-red-contrib-ui/dist'))   
 })
 
