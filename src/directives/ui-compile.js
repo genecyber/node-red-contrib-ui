@@ -6,26 +6,30 @@ angular.module('ui').directive('uiCompile', ['$compile', '$rootScope', 'UiEvents
             innerScope.send = function(msg) {
                 events.emit({id: id, msg: msg});
             };
+            innerScope.getSend = function(d, cb) {
+                console.log("test",cb)
+                //return cb(events)
+                //events.emit({id: id, msg: msg});
+            };
             return innerScope;
         }
         
         return function(scope, element, attrs) {
             var id = scope.$eval('me.item.id');
+            var name = JSON.stringify(scope.$eval('me'))
             var innerScope;
             
             scope.$watch(attrs.uiCompile,
                 function(value) {
                     if (innerScope) innerScope.$destroy();
-                    innerScope = createInnerScope(id);
-                    //console.log("ID", id, "element", element)
-                    components.push({id: id, element: element})
+                    innerScope = createInnerScope(id); 
+                    components.push({id: id, element: element, send: innerScope.send})
                     window.scope = innerScope;
-                    var port = '<input portId="'+id+'" style="display:none" ng-model="payload" type="text"/>\r\n'
-                    //var portScript = '$("[portId=\''+id+'\']").on("change", function() {if (!perform) {perform = function(val){}}var payload = $("[portId=\''+id+'\']").val();return perform(payload)})'
-                    //var portScript = '<script>var payload = $("[portId=\''+id+'\']")</script>\r\n'
-                    var portScript = '<script>$("[portId=\''+id+'\']").on("change", function(){if (!perform) {perform = function(val){}}; var payload = $("[portId=\''+id+'\']"); return perform(payload.val())})</script>\r\n'
-                    element.html(port + portScript + value);
-                    //console.log("triggering change", element, value)
+                    var port = '<input portId="'+id+'" style="display:none" ng-bind="payload" ng-model="payload" type="text"/>\r\n'
+                    var portScript = '<script>var sendit; $("[portId=\''+id+'\']").on("change", function(){if (!perform'+id.split('.')[0]+') {perform'+id.split('.')[0]+' = function(val){}}; var payload = $("[portId=\''+id+'\']"); return perform'+id.split(".")[0]+'(payload.val())})</script>\r\n'
+                    value = value.replace(new RegExp(escapeRegExp('send({'), 'g'),"components.filter(function(component){return component.id === \""+id+"\"})[0].send({")
+                    value = value.replace(new RegExp(escapeRegExp('perform('), 'g'),"perform"+id.split('.')[0]+"(")
+                    element.html(port + portScript + value)
                     delete window.scope;
                     $compile(element.contents())(innerScope);
                 }
@@ -44,4 +48,6 @@ angular.module('ui').directive('uiCompile', ['$compile', '$rootScope', 'UiEvents
         };
     }]);
     
-    
+function escapeRegExp(str) {
+    return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}    

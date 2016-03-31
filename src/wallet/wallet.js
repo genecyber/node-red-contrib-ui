@@ -231,7 +231,7 @@ function getQueryParams(qs) {
     return params;
 }
 
-function send(name, payload){
+/*function send(name, payload){
     if (typeof angular !== 'undefined') {
         console.log("SEND", payload)
         if (typeof payload !== 'object') {
@@ -245,7 +245,7 @@ function send(name, payload){
         console.log(payload)
         $(".out").append(payload.payload)
     }
-}
+}*/
 
 function dispatch(payload) {
     if (typeof payload !== 'object') {
