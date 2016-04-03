@@ -1,11 +1,12 @@
 <div flex layout="row" layout-align="space-between center"
-     class="control-text-input">
+     class="control-text-input" style="{{me.item.mode === 'hidden' ? 'display: none' : ''}}">
     <md-input-container class="md-block" flex>
-      <label>{{me.item.label}}</label>
-      <input ng-model="me.item.value"
+      <label>{{me.item.mode === 'hidden' ? "" : me.item.label}}</label>
+      <input ng-model="me.item.value[me.item.topic]"
              ng-change="me.valueChanged({{me.item.delay}})"
              ng-disabled="me.item.disabled"
              aria-label="{{me.item.label}}"
              type="{{me.item.mode}}"/>
     </md-input-container>
 </div>
+<!-- ng-model="me.item.value" -->

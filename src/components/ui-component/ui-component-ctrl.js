@@ -5,7 +5,7 @@ angular.module('ui').controller('uiComponentController', ['UiEvents', '$interpol
     function (events, $interpolate, $interval) {
         var me = this;
         if (typeof me.item.format === "string") {
-            me.item.getText = $interpolate(me.item.format).bind(null, me.item);
+            me.item.getText = $interpolate(me.item.format).bind(null, me.item);            
         }
         me.init = function() {
             switch (me.item.type) {

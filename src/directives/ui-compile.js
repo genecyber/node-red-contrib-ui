@@ -16,6 +16,7 @@ angular.module('ui').directive('uiCompile', ['$compile', '$rootScope', 'UiEvents
         
         return function(scope, element, attrs) {
             var id = scope.$eval('me.item.id');
+            var binder = scope.$eval("me.item.binder")
             var name = JSON.stringify(scope.$eval('me'))
             var innerScope;
             

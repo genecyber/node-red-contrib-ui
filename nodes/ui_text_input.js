@@ -15,6 +15,7 @@ module.exports = function(RED) {
             control: {
                 type: 'text-input',
                 label: config.name,
+                topic: config.topic,
                 mode:  config.mode,
                 delay: config.delay,
                 order: config.order,
