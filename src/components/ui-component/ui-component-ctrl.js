@@ -75,9 +75,11 @@ angular.module('ui').controller('uiComponentController', ['UiEvents', '$interpol
             }, typeof throttleTime === "number" ? throttleTime : 10);
         };
         me.selectChanged = function(selected, throttleTime) {
+            var p = {}
+            p[me.item.topic] = selected
             throttle({
                 id: me.item.id,
-                value: selected
+                value: p
             }, typeof throttleTime === "number" ? throttleTime : 10);
         };
         

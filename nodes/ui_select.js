@@ -9,6 +9,8 @@ module.exports = function(RED) {
         if (!tab) return;
 
         var done = ui.add({
+            forwardInputMessages: false,
+            storeFrontEndInputAsState: false,
             node: node,
             tab: tab,
             group: config.group,
