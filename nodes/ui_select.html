@@ -7,6 +7,7 @@
             delay: {value: 300, validate: RED.validators.number()},
             name: {value: ''},
             topic: {value: ''},
+            format: {value: '{{msg.payload}}'},
             group: {value: ''},
             order: {value: 1, validate: RED.validators.number()}
         },
@@ -30,6 +31,10 @@
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
         <input type="text" id="node-input-topic">
+    </div>
+    <div class="form-row">
+        <label for="node-input-format"><i class="fa fa-copy"></i> Select text parameter</label>
+        <input type="text" id="node-input-format" placeholder="itemName">
     </div>
     <div class="form-row">
         <label for="node-input-group"><i class="fa fa-object-group"></i> Group</label>

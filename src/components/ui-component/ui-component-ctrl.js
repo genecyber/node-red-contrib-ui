@@ -5,7 +5,11 @@ angular.module('ui').controller('uiComponentController', ['UiEvents', '$interpol
     function (events, $interpolate, $interval) {
         var me = this;
         if (typeof me.item.format === "string") {
-            me.item.getText = $interpolate(me.item.format).bind(null, me.item);            
+            me.item.getText = $interpolate(me.item.format).bind(null, me.item);
+            me.item.getSelectedText = function(selected){
+                $interpolate(me.item.format).bind(null, me.item)()
+                console.log("selected",selected)
+            }          
         }
         me.init = function() {
             switch (me.item.type) {
@@ -68,6 +72,12 @@ angular.module('ui').controller('uiComponentController', ['UiEvents', '$interpol
             throttle({
                 id: me.item.id,
                 value: me.item.value
+            }, typeof throttleTime === "number" ? throttleTime : 10);
+        };
+        me.selectChanged = function(selected, throttleTime) {
+            throttle({
+                id: me.item.id,
+                value: selected
             }, typeof throttleTime === "number" ? throttleTime : 10);
         };
         

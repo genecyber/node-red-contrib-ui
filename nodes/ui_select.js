@@ -18,6 +18,7 @@ module.exports = function(RED) {
                 topic: config.topic,
                 mode:  config.mode,
                 delay: config.delay,
+                format: config.format,
                 order: config.order,
                 value: ''
             },

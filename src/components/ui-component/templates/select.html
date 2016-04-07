@@ -12,8 +12,8 @@
 <div flex layout="row">
     <md-input-container>    
     <label>{{me.item.mode === 'hidden' ? "" : me.item.label}}</label>
-        <md-select ng-change="me.valueChanged({{me.item.delay}})" placeholder="Point type on completion" ng-model="reward" md-on-open="loadUsers()" style="min-width: 200px;">
-          <md-option class="dynamic-select" ng-value="reward.key" ng-repeat="reward in msg.payload">{{reward.rewardName}}</md-option>
+        <md-select ng-change="me.selectChanged(item,{{me.item.delay}})" placeholder="Point type on completion" ng-model="item" md-on-open="loadUsers()" style="min-width: 200px;">
+          <md-option class="dynamic-select" ng-selected="item.selected" ng-value="item.key" ng-repeat="item in me.item.value">{{item[me.item.format]}}</md-option>
         </md-select>
     </md-input-container>
 </div>
