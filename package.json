@@ -31,7 +31,8 @@
       "ui_toast": "nodes/ui_toast.js",
       "ui_link": "nodes/ui_link.js",
       "ui_template": "nodes/ui_template.js",
-      "ui_tab": "nodes/ui_tab.js"
+      "ui_tab": "nodes/ui_tab.js",
+      "ui_select": "nodes/ui_select.js"
     }
   },
   "dependencies": {

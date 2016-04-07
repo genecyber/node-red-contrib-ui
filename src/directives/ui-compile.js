@@ -24,7 +24,7 @@ angular.module('ui').directive('uiCompile', ['$compile', '$rootScope', 'UiEvents
                 function(value) {
                     if (innerScope) innerScope.$destroy();
                     innerScope = createInnerScope(id); 
-                    components.push({id: id, element: element, send: innerScope.send})
+                    components.push({id: id, element: element, send: innerScope.send, scope: innerScope})
                     window.scope = innerScope;
                     var port = '<input portId="'+id+'" style="display:none" ng-bind="payload" ng-model="payload" type="text"/>\r\n'
                     var portScript = '<script>var sendit; $("[portId=\''+id+'\']").on("change", function(){if (!perform'+id.split('.')[0]+') {perform'+id.split('.')[0]+' = function(val){}}; var payload = $("[portId=\''+id+'\']"); return perform'+id.split(".")[0]+'(payload.val())})</script>\r\n'
