@@ -5,12 +5,8 @@ angular.module('ui').directive('uiCompile', ['$compile', '$rootScope', 'UiEvents
             var innerScope = $rootScope.$new();
             innerScope.send = function(msg) {
                 events.emit({id: id, msg: msg});
-            };
-            innerScope.getSend = function(d, cb) {
-                console.log("test",cb)
-                //return cb(events)
-                //events.emit({id: id, msg: msg});
-            };
+            }
+            
             return innerScope;
         }
         
@@ -47,7 +43,16 @@ angular.module('ui').directive('uiCompile', ['$compile', '$rootScope', 'UiEvents
                     innerScope.$destroy();
             });
         };
-    }]);
+    }])
+    .directive('customOnChange', function() {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+            var onChangeHandler = scope.$eval(attrs.customOnChange);
+            element.bind('change', onChangeHandler);
+            }
+        };
+    });
     
 function escapeRegExp(str) {
     return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");

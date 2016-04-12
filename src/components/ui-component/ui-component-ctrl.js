@@ -4,6 +4,25 @@
 angular.module('ui').controller('uiComponentController', ['UiEvents', '$interpolate', '$interval',
     function (events, $interpolate, $interval) {
         var me = this;
+        me.uploadFile = function(){
+            var filename = event.target.files[0].name;
+            var files = event.target.files;
+            var file = files[0];
+            if (files && file) {
+                var reader = new FileReader()
+                reader.onload = function(readerEvt) {
+                    var binaryString = readerEvt.target.result;
+                    //console.log(btoa(binaryString))
+                    var pload = {}
+                    pload[me.item.topic] = btoa(binaryString)
+                    me.item.value = pload             
+                    me.valueChanged(0);
+                };
+            }
+            reader.readAsBinaryString(file);
+            //alert('file was selected: ' + filename);
+        }
+        
         if (typeof me.item.format === "string") {
             me.item.getText = $interpolate(me.item.format).bind(null, me.item);
             me.item.getSelectedText = function(selected){
